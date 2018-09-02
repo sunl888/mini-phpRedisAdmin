@@ -1,6 +1,6 @@
-FROM php:7.2-alpine3.7
+FROM php:7.2-alpine3.7 as build
 
-ADD ./ /var/www
+COPY ./ /var/www
 
 ENV COMPOSER_VERSION 1.6.5
 
@@ -13,6 +13,8 @@ RUN php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.ph
  && composer install --no-plugins --no-scripts \
  && cp includes/config.environment.inc.php includes/config.inc.php
 
-EXPOSE 80
+FROM php:7.2-alpine3.7
 
+COPY --from=build /var/www ./
+EXPOSE 80
 ENTRYPOINT [ "php", "-S", "0.0.0.0:80" ]
