@@ -1,6 +1,6 @@
 FROM php:7.2-alpine3.7
 
-COPY ./ /var/www
+ADD ./ /var/www
 
 ENV COMPOSER_VERSION 1.6.5
 
